@@ -1,0 +1,48 @@
+from snakebids import bids, generate_inputs, get_wildcard_constraints
+
+configfile: 'config/snakebids.yml'
+
+# Get input wildcards
+inputs = generate_inputs(
+    bids_dir=config["bids_dir"],
+    pybids_inputs=config["pybids_inputs"],
+    pybidsdb_dir=config.get("pybidsdb_dir"),
+    pybidsdb_reset=config.get("pybidsdb_reset"),
+    derivatives=config.get("derivatives", None),
+    participant_label=config.get("participant_label", None),
+    exclude_participant_label=config.get("exclude_participant_label", None),
+    validate=not config.get("plugins.validator.skip", False)
+)
+
+
+rule all:
+    input:
+        inputs['t1w'].expand(
+            Path(bids(**inputs.subj_wildcards)).name
+        )
+
+rule fastsurfer_seg:
+    input: 
+        t1=inputs['t1w'].path
+    output:
+        directory(
+            Path(bids(**inputs.subj_wildcards)).name
+        )
+    benchmark: bids(root='benchmarks',suffix='fastsurfer.tsv',**inputs.subj_wildcards)
+    log: bids(root='logs',suffix='fastsurfer.txt',**inputs.subj_wildcards)
+    resources:
+        runtime=360,
+        mem_mb=10000,
+    container: config["containers"]["fastsurfer"],
+    params:
+        fs_license=os.environ.get('FS_LICENSE',config["fs_license"]),
+        sid=lambda wcards, output: Path(output[0]).name,
+        sd=lambda wcards, output: Path(output[0]).parent,
+    threads: 8
+    group: 'fastsurfer_seg'
+    shell:
+        """
+        /fastsurfer/run_fastsurfer.sh --fs_license {params.fs_license} \\
+            --t1 {input.t1} --sid {params.sid} --sd {params.sd} &> {log}
+        """
+

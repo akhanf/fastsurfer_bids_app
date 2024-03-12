@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "fastsurfer_bidsapp"
+version = "0.1.0"
+description = "Snakebids app for fastsurfer"
+readme = "README.md"
+license = "MIT"
+authors = [
+    "Ali Khan <alik@robarts.ca>"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.13"
+snakemake = ">=7.20,<8"
+snakebids = ">=0.11.2"
+pulp = "<2.8.0"
+pandas = [
+    { version = "<=2.0.3", python = "<3.9" },
+    { version = ">=2.1.1", python = ">=3.12" },
+]
+
+[tool.poetry.scripts]
+fastsurfer_bidsapp = "fastsurfer_bidsapp.run:main"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
