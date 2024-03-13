@@ -1,3 +1,3 @@
-# fastsurfer_bidsapp
+# freesurfer_bidsapp
 
-Snakebids app for fastsurfer
+Snakebids app for freesurfer

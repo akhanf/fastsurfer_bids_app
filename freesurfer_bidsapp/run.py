@@ -2,7 +2,6 @@
 from pathlib import Path
 
 from snakebids.app import SnakeBidsApp
-from snakebids.plugins.validator import BidsValidator
 
 
 def get_parser():
@@ -15,7 +14,6 @@ def main():
     """Run the app."""
     app = SnakeBidsApp(
         Path(__file__).resolve().parent,  # to get repository root
-        plugins=[BidsValidator()],
     )
     app.run_snakemake()
 

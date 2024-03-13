@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "fastsurfer_bidsapp"
+name = "freesurfer_bidsapp"
 version = "0.1.0"
-description = "Snakebids app for fastsurfer"
+description = "Snakebids app for freesurfer"
 readme = "README.md"
 license = "MIT"
 authors = [
@@ -23,7 +23,7 @@ pandas = [
 ]
 
 [tool.poetry.scripts]
-fastsurfer_bidsapp = "fastsurfer_bidsapp.run:main"
+freesurfer_bidsapp = "freesurfer_bidsapp.run:main"
 
 
 [build-system]

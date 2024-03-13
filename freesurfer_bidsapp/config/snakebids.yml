@@ -25,9 +25,11 @@ pybids_inputs:
   t1w:
     filters:
       suffix: T1w
+      datatype: anat
       extension: nii.gz
     wildcards:
       - subject
+      - session
 
 #configuration for the command-line parameters to make available
 # passed on the argparse add_argument()
@@ -91,3 +93,4 @@ parse_args:
 #singularity containers
 containers:
   fastsurfer: 'docker://deepmi/fastsurfer:gpu-v2.0.4'
+  freesurfer: 'docker://pwighton/freesurfer:7.1.0'
